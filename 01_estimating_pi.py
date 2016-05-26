@@ -43,9 +43,13 @@ def plot_estimate_pi(points=100000):
         else:
             out_x.append(x)
             out_y.append(y)
+
     plt.title('Pi estimation for N = %s points' % points)
-    plt.plot(in_x, in_y, 'ro', color='green', markersize=2, label="Points inside circle")
-    plt.plot(out_x, out_y, 'ro', color='red', markersize=2, label="Points outside circle")
+    x = np.linspace(0, 1, 1000, endpoint=True)
+    y = (1 - x ** 2) ** .5
+    plt.plot(x, y, color='grey', linewidth=1) # Plotting unit circle curve
+    plt.plot(in_x, in_y, 'ro', color='#76ee00', markersize=2, label="Points inside circle")
+    plt.plot(out_x, out_y, 'ro', color='#ee2c2c', markersize=2, label="Points outside circle")
     plt.show()
 
 
@@ -97,7 +101,7 @@ def plot_poly3_accuracy_check(iterations=50, tests=10, tests_incr=0, points_firs
         accuracies.append(n_estimate_pi(tests=tests + i * tests_incr, points=points_first + i * points_incr)[1])
     # If in need of bigger differences on the plot (to depict the accuracy improvement), one should use:
     # accuracies = map(lambda x: x * 100, accuracies)
-    plt.plot(range(len(accuracies)), accuracies, 'ro', color='green', markersize=5, label='Estimated points')
+    plt.plot(range(len(accuracies)), accuracies, 'ro', color='green', markersize=4, label='Estimated points')
 
     # Curve fitting
     def func(x, a, b, c, d):
@@ -105,10 +109,11 @@ def plot_poly3_accuracy_check(iterations=50, tests=10, tests_incr=0, points_firs
     x_axis = np.array(range(len(accuracies)), dtype=float)
     y_axis = np.array(accuracies, dtype=float)
     popt, pcov = curve_fit(func, x_axis, y_axis)
-    plt.plot(x_axis, func(x_axis, *popt), label='Fitted Curve', linewidth=3)
+    plt.plot(x_axis, func(x_axis, *popt), color="#ee2c2c", label='Fitted Curve', linewidth=3)
     plt.xlabel('Iterations', fontsize=13)
     plt.ylabel('Difference from Pi value', fontsize=13)
-    plt.title('Accuracy check of Monte Carlo Pi estimation')
+    plt.title('Accuracy check of Monte Carlo Pi estimation \n iterations = %s, tests = %s, tests_incr = %s, '
+              'points first = %s, points_incr = %s' % (iterations, tests, tests_incr, points_first, points_incr))
     plt.show()
 
 
@@ -135,7 +140,7 @@ def plot_linear_accuracy_check(iterations=50, tests=10, tests_incr=0, points_fir
         accuracies.append(n_estimate_pi(tests=tests + i * tests_incr, points=points_first + i * points_incr)[1])
     # If in need of bigger differences on the plot (to depict the accuracy improvement), one should use:
     # accuracies = map(lambda x: x * 100, accuracies)
-    plt.plot(range(len(accuracies)), accuracies, 'ro', color='green', markersize=5, label='Estimated points')
+    plt.plot(range(len(accuracies)), accuracies, 'ro', color='green', markersize=4, label='Estimated points')
 
     # Curve fitting
     def func(x, c, d):
@@ -143,11 +148,13 @@ def plot_linear_accuracy_check(iterations=50, tests=10, tests_incr=0, points_fir
     x_axis = np.array(range(len(accuracies)), dtype=float)
     y_axis = np.array(accuracies, dtype=float)
     popt, pcov = curve_fit(func, x_axis, y_axis)
-    plt.plot(x_axis, func(x_axis, *popt), label='Fitted Curve', linewidth=3)
+    plt.plot(x_axis, func(x_axis, *popt), color="#ee2c2c", label='Fitted Curve', linewidth=3)
     plt.xlabel('Iterations', fontsize=13)
     plt.ylabel('Difference from Pi value', fontsize=13)
-    plt.title('Accuracy check of Monte Carlo Pi estimation')
+    plt.title('Accuracy check of Monte Carlo Pi estimation \n iterations = %s, tests = %s, tests_incr = %s, '
+              'points first = %s, points_incr = %s' % (iterations, tests, tests_incr, points_first, points_incr))
     plt.show()
 
 # plot_linear_accuracy_check(iterations=100, tests_incr=0, points_first=500, points_incr=100)
-# plot_estimate_pi(points=200000)
+# plot_poly3_accuracy_check(iterations=150, tests_incr=0, points_first=500, points_incr=100)
+# plot_estimate_pi(points=20000)
