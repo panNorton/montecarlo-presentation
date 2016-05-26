@@ -50,7 +50,6 @@ def n_estimate_pi(tests=100, points=100000):
 def plot_accuracy_check(iterations=50, tests=10, points_first=1000, points_increment=100):
     """
     Checks the accuracy of Pi estimation with different parameters and plots the result including curve fitting.
-
     :param iterations: positive int, default 50
         Number of iterations.
     :param tests: positive int, default 10
@@ -62,19 +61,19 @@ def plot_accuracy_check(iterations=50, tests=10, points_first=1000, points_incre
     """
     plt.style.use('ggplot')
 
-    a = []
+    accuracies = []
     for i in range(iterations):
-        a.append(n_estimate_pi(tests=tests, points=points_first + i * points_increment)[1])
-    a = map(lambda x: x * 100, a)
-    plt.plot(range(len(a)), a, 'ro', color='green', markersize=5, label="Estimated points")
+        accuracies.append(n_estimate_pi(tests=tests, points=points_first + i * points_increment)[1])
+    accuracies = map(lambda x: x * 100, accuracies)
+    plt.plot(range(len(accuracies)), accuracies, 'ro', color='green', markersize=5, label="Estimated points")
 
     # Curve fitting
     def func(x, a, b, c, d):
         return a * x ** 3 + b * x ** 2 + c * x + d
-    x = np.array(range(len(a)), dtype=float)
-    y = np.array(a, dtype=float)
-    popt, pcov = curve_fit(func, x, y)
-    plt.plot(x, func(x, *popt), label="Fitted Curve")
+    x_axis = np.array(range(len(accuracies)), dtype=float)
+    y_axis = np.array(accuracies, dtype=float)
+    popt, pcov = curve_fit(func, x_axis, y_axis)
+    plt.plot(x_axis, func(x_axis, *popt), label="Fitted Curve")
     plt.show()
 
-# plot_accuracy_check(iterations=70, points_first=1000, points_increment=1000)
+plot_accuracy_check(iterations=70, points_first=1000, points_increment=1000)
