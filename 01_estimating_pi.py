@@ -47,7 +47,7 @@ def plot_estimate_pi(points=100000):
     plt.title('Pi estimation for N = %s points' % points)
     x = np.linspace(0, 1, 1000, endpoint=True)
     y = (1 - x ** 2) ** .5
-    plt.plot(x, y, color='grey', linewidth=1) # Plotting unit circle curve
+    plt.plot(x, y, color='grey', linewidth=1)  # Plotting unit circle curve
     plt.plot(in_x, in_y, 'ro', color='#76ee00', markersize=2, label="Points inside circle")
     plt.plot(out_x, out_y, 'ro', color='#ee2c2c', markersize=2, label="Points outside circle")
     plt.show()
