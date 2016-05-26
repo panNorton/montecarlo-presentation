@@ -91,7 +91,7 @@ def plot_accuracy_check(iterations=50, tests=10, points_first=1000, points_incre
     accuracies = []
     for i in range(iterations):
         accuracies.append(n_estimate_pi(tests=tests, points=points_first + i * points_increment)[1])
-    # If we need bigger differences on the plot
+    # If in need bigger differences on the plot (to depict the accuracy improvement), one should use:
     # accuracies = map(lambda x: x * 100, accuracies)
     plt.plot(range(len(accuracies)), accuracies, 'ro', color='green', markersize=5, label='Estimated points')
 
@@ -107,5 +107,5 @@ def plot_accuracy_check(iterations=50, tests=10, points_first=1000, points_incre
     plt.title('Accuracy check of Monte Carlo Pi estimation')
     plt.show()
 
-plot_accuracy_check(iterations=100, points_first=1000, points_increment=1000)
+# plot_accuracy_check(iterations=100, points_first=1000, points_increment=1000)
 # plot_estimate_pi(points=200000)
