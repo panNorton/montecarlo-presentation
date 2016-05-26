@@ -30,7 +30,6 @@ def plot_estimate_pi(points=100000):
     :param points: positive int, default 100000
         Number of points generated randomly from the set [0,1]x[0,1]
     """
-    plt.style.use('ggplot')
     in_x = []
     in_y = []
     out_x = []
@@ -44,6 +43,7 @@ def plot_estimate_pi(points=100000):
             out_x.append(x)
             out_y.append(y)
 
+    plt.style.use('ggplot')
     plt.title('Pi estimation for N = %s points' % points)
     x = np.linspace(0, 1, 1000, endpoint=True)
     y = (1 - x ** 2) ** .5
@@ -94,13 +94,12 @@ def plot_poly3_accuracy_check(iterations=50, tests=10, tests_incr=0, points_firs
     :param points_incr: positive int or 0, default 100
         Increment of points generated randomly from the set [0,1]x[0,1] in next iterations.
     """
-    plt.style.use('ggplot')
-
     accuracies = []
     for i in xrange(iterations):
         accuracies.append(n_estimate_pi(tests=tests + i * tests_incr, points=points_first + i * points_incr)[1])
     # If in need of bigger differences on the plot (to depict the accuracy improvement), one should use:
     # accuracies = map(lambda x: x * 100, accuracies)
+    plt.style.use('ggplot')
     plt.plot(range(len(accuracies)), accuracies, 'ro', color='green', markersize=4, label='Estimated points')
 
     # Curve fitting
@@ -133,13 +132,12 @@ def plot_linear_accuracy_check(iterations=50, tests=10, tests_incr=0, points_fir
     :param points_incr: positive int or 0, default 100
         Increment of points generated randomly from the set [0,1]x[0,1] in next iterations.
     """
-    plt.style.use('ggplot')
-
     accuracies = []
     for i in xrange(iterations):
         accuracies.append(n_estimate_pi(tests=tests + i * tests_incr, points=points_first + i * points_incr)[1])
     # If in need of bigger differences on the plot (to depict the accuracy improvement), one should use:
     # accuracies = map(lambda x: x * 100, accuracies)
+    plt.style.use('ggplot')
     plt.plot(range(len(accuracies)), accuracies, 'ro', color='green', markersize=4, label='Estimated points')
 
     # Curve fitting
