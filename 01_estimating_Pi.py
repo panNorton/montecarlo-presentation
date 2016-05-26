@@ -50,6 +50,7 @@ def n_estimate_pi(tests=100, points=100000):
 def plot_accuracy_check(iterations=50, tests=10, points_first=1000, points_increment=100):
     """
     Checks the accuracy of Pi estimation with different parameters and plots the result including curve fitting.
+
     :param iterations: positive int, default 50
         Number of iterations.
     :param tests: positive int, default 10
@@ -76,4 +77,4 @@ def plot_accuracy_check(iterations=50, tests=10, points_first=1000, points_incre
     plt.plot(x_axis, func(x_axis, *popt), label="Fitted Curve")
     plt.show()
 
-plot_accuracy_check(iterations=70, points_first=1000, points_increment=1000)
+# plot_accuracy_check(iterations=70, points_first=1000, points_increment=1000)
