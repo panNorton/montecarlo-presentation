@@ -4,7 +4,21 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def integrate(x1, x2, maxmin_steps=100000, iterations=100000, func=lambda x: x ** 2):
+def integrate(x1, x2, maxmin_steps=100000, points=100000, func=lambda x: x ** 2):
+    """
+    Estimates the integral of a function using Monte Carlo methods.
+
+    :param x1: float
+        left bound of integration interval
+    :param x2: float
+        right bound of integration interval
+    :param maxmin_steps: int, default 100000
+        number of subintervals of [x1, x2] interval
+    :param points: int
+        Number of randomly generated points from the integration rectangle
+    :param func: function
+        function to integrate
+    """
     ymin = func(x1)
     ymax = ymin
     for i in xrange(maxmin_steps):
@@ -17,7 +31,7 @@ def integrate(x1, x2, maxmin_steps=100000, iterations=100000, func=lambda x: x *
 
     area = (x2 - x1) * (ymax - ymin)
     points = 0
-    for j in xrange(iterations):
+    for j in xrange(points):
         x = x1 + (x2 - x1) * random.random()
         y = ymin + (ymax - ymin) * random.random()
         if abs(y) <= abs(func(x)):
@@ -26,11 +40,25 @@ def integrate(x1, x2, maxmin_steps=100000, iterations=100000, func=lambda x: x *
             if func(x) < 0 and y < 0:
                 points -= 1
 
-    integral = round(area * float(points) / iterations, 15)
+    integral = round(area * float(points) / points, 15)
     print 'Integral = %s' % integral
 
 
-def plot_integral(x1, x2, maxmin_steps=100000, iterations=100000, func=lambda x: x ** 2):
+def plot_integral(x1, x2, maxmin_steps=100000, points=100000, func=lambda x: x ** 2):
+    """
+    Plots the integration process of a function using Monte Carlo methods.
+
+    :param x1: float
+        left bound of integration interval
+    :param x2: float
+        right bound of integration interval
+    :param maxmin_steps: int, default 100000
+        number of subintervals of [x1, x2] interval
+    :param points: int
+        Number of randomly generated points from the integration rectangle
+    :param func: function
+        function to integrate
+    """
     ymin = func(x1)
     ymax = ymin
     for i in xrange(maxmin_steps):
@@ -43,7 +71,7 @@ def plot_integral(x1, x2, maxmin_steps=100000, iterations=100000, func=lambda x:
 
     in_x = []
     in_y = []
-    for j in xrange(iterations):
+    for j in xrange(points):
         x = x1 + (x2 - x1) * random.random()
         y = ymin + (ymax - ymin) * random.random()
         if abs(y) <= abs(func(x)):
