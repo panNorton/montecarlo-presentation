@@ -13,10 +13,7 @@ def gamble(win_chance=0.5):
     :return: boolean
         True if won, False if lost.
     """
-    if random.random() <= win_chance:
-        return True
-    else:
-        return False
+    return True if random.random() <= win_chance else False
 
 
 def broke_bet(starting_funds=1000, stack=100, win_chance=0.5, periods=100):
@@ -119,6 +116,15 @@ def simul_bets(bettors=1000, starting_funds=1000, stack=100, win_chance=0.5, per
 
 
 def simul_broke_bets(bettors=1000, starting_funds=1000, stack=100, win_chance=0.5, periods=100):
+    """
+
+    :param bettors:
+    :param starting_funds:
+    :param stack:
+    :param win_chance:
+    :param periods:
+    :return:
+    """
     x = 0
     gains = 0
     broke = 0
@@ -141,4 +147,4 @@ def simul_broke_bets(bettors=1000, starting_funds=1000, stack=100, win_chance=0.
 
 
 # simul_bets(bettors=900, starting_funds=10000, stack=100, win_chance=0.5, periods=900)
-simul_broke_bets(bettors=900, starting_funds=10000, stack=100, win_chance=0.495, periods=900)
+# simul_broke_bets(bettors=900, starting_funds=10000, stack=100, win_chance=0.495, periods=900)
