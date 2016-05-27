@@ -34,17 +34,21 @@ def plot_estimate_pi(points=100000):
     in_y = []
     out_x = []
     out_y = []
+    counter = 0
     for i in xrange(points):
         x, y = random.random(), random.random()
         if math.hypot(x, y) < 1:
             in_x.append(x)
             in_y.append(y)
+            counter += 1
         else:
             out_x.append(x)
             out_y.append(y)
-
+    est_pi = 4.0 * counter / points
+    error = round(abs(math.pi - est_pi), 8)
     plt.style.use('ggplot')
-    plt.title('Pi estimation for N = %s points' % points)
+    plt.suptitle('Pi estimation for N = %s points' % points, fontsize=16)
+    plt.title('Calculated Pi = %s, Error = %s ' % (est_pi, error), fontsize=12)
     x = np.linspace(0, 1, 1000, endpoint=True)
     y = (1 - x ** 2) ** .5
     plt.plot(x, y, color='grey', linewidth=1)  # Plotting unit circle curve
@@ -155,4 +159,4 @@ def plot_linear_accuracy_check(iterations=50, tests=10, tests_incr=0, points_fir
 
 # plot_linear_accuracy_check(iterations=100, tests_incr=0, points_first=500, points_incr=100)
 # plot_poly3_accuracy_check(iterations=150, tests_incr=0, points_first=500, points_incr=100)
-# plot_estimate_pi(points=20000)
+plot_estimate_pi(points=500000)
