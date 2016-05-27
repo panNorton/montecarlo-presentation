@@ -1,7 +1,7 @@
 import random
 import matplotlib.pyplot as plt
 
-# Inspired by this tutorial https://pythonprogramming.net/monte-carlo-simulator-python/
+# Inspired by the tutorial https://pythonprogramming.net/monte-carlo-simulator-python/
 
 
 def gamble(win_chance=0.5):
