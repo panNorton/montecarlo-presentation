@@ -5,6 +5,11 @@ import matplotlib.pyplot as plt
 
 
 def gamble(win_chance=0.5):
+    """
+
+    :param win_chance:
+    :return:
+    """
     if random.random() <= win_chance:
         return True
     else:
@@ -12,6 +17,14 @@ def gamble(win_chance=0.5):
 
 
 def broke_bet(starting_funds=1000, stack=100, win_chance=0.5, periods=100):
+    """
+
+    :param starting_funds:
+    :param stack:
+    :param win_chance:
+    :param periods:
+    :return:
+    """
     funds = starting_funds
     x_axis = []
     funds_list = []
@@ -41,6 +54,14 @@ def broke_bet(starting_funds=1000, stack=100, win_chance=0.5, periods=100):
 
 
 def bet(starting_funds=1000, stack=100, win_chance=0.5, periods=100):
+    """
+
+    :param starting_funds:
+    :param stack:
+    :param win_chance:
+    :param periods:
+    :return:
+    """
     funds = starting_funds
     x_axis = []
     funds_list = []
@@ -64,6 +85,15 @@ def bet(starting_funds=1000, stack=100, win_chance=0.5, periods=100):
 
 
 def simul_bets(bettors=1000, starting_funds=1000, stack=100, win_chance=0.5, periods=100):
+    """
+
+    :param bettors:
+    :param starting_funds:
+    :param stack:
+    :param win_chance:
+    :param periods:
+    :return:
+    """
     x = 0
     gains = 0
     broke = 0
