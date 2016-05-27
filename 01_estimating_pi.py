@@ -5,7 +5,7 @@ from scipy.optimize import curve_fit
 import matplotlib.pyplot as plt
 
 
-def estimate_pi(points=100000):
+def single_estimate_pi(points=100000):
     """
     Estimates Pi value using Monte Carlo method
     Formula:
@@ -13,14 +13,15 @@ def estimate_pi(points=100000):
 
     :param points: positive int, default 100000
         Number of points generated randomly from the set [0,1]x[0,1]
-    :return: float
-        estimated Pi value
+    :return: 2-element list
+        Estimated Pi, Difference from the exact Pi value
     """
     counter = 0
     for i in xrange(points):
         if math.hypot(random.random(), random.random()) < 1:
             counter += 1
-    return 4.0 * counter / points
+    est_pi = 4.0 * counter / points
+    return est_pi, abs(math.pi - est_pi)
 
 
 def plot_estimate_pi(points=100000):
@@ -57,7 +58,7 @@ def plot_estimate_pi(points=100000):
     plt.show()
 
 
-def n_estimate_pi(tests=100, points=100000):
+def mean_estimate_pi(tests=100, points=100000):
     """
     Performs n Pi estimations, counting the mean of estimated Pi values
     and a difference from the exact Pi value.
@@ -75,11 +76,50 @@ def n_estimate_pi(tests=100, points=100000):
     values = []
     pi_sum = 0.0
     for i in xrange(tests):
-        a = estimate_pi(points)
+        a = single_estimate_pi(points)[0]
         values.append(a)
         pi_sum += a
     pi_mean = pi_sum / tests
     return pi_mean, abs(math.pi - pi_mean)
+
+
+def plot_mean_accuracy_check(iterations=50, points_first=50, points_incr=25, tests=10):
+    """
+    Checks the accuracy of Pi estimation with single check and mean from n checks
+    and plots the result including 3rd-degree polynomial curve fitting.
+
+    :param iterations: positive int, default 50
+        Number of iterations.
+    :param points_first: positive int, default 50
+        Number of points generated randomly from the set [0,1]x[0,1] in the first test.
+    :param points_incr: positive int or 0, default 25
+        Increment of points generated randomly from the set [0,1]x[0,1] in next iterations.
+    :param tests: positive int, default 10
+        Number of tests in every mean estimation.
+    :return:
+    """
+    y_axis_single = []
+    y_axis_mean = []
+    for i in xrange(iterations):
+        a = single_estimate_pi(points=points_first + i * points_incr)
+        b = mean_estimate_pi(tests=tests, points=points_first + i * points_incr)
+        y_axis_single.append(a[1])
+        y_axis_mean.append(b[1])
+
+    def func(x, a, b, c, d):
+        return a * x ** 3 + b * x ** 2 + c * x + d
+
+    plt.style.use('ggplot')
+    x_axis = np.array(range(iterations), dtype=float)
+    y_axis1 = np.array(y_axis_single, dtype=float)
+    y_axis2 = np.array(y_axis_mean, dtype=float)
+    popt1, pcov1 = curve_fit(func, x_axis, y_axis1)
+    plt.plot(x_axis, func(x_axis, *popt1), color="#76ee00", label='Fitted Curve Single', linewidth=3)
+    popt2, pcov2 = curve_fit(func, x_axis, y_axis2)
+    plt.plot(x_axis, func(x_axis, *popt2), color="#ee2c2c", label='Fitted Curve Mean', linewidth=3)
+    plt.plot(x_axis, y_axis_single, 'ro', color='#76ee00', markersize=2)
+    plt.plot(x_axis, y_axis_mean, 'ro', color='#ee2c2c', markersize=2)
+    plt.show()
 
 
 def plot_poly3_accuracy_check(iterations=50, tests=10, tests_incr=0, points_first=1000, points_incr=100):
@@ -100,7 +140,7 @@ def plot_poly3_accuracy_check(iterations=50, tests=10, tests_incr=0, points_firs
     """
     accuracies = []
     for i in xrange(iterations):
-        accuracies.append(n_estimate_pi(tests=tests + i * tests_incr, points=points_first + i * points_incr)[1])
+        accuracies.append(mean_estimate_pi(tests=tests + i * tests_incr, points=points_first + i * points_incr)[1])
     # If in need of bigger differences on the plot (to depict the accuracy improvement), one should use:
     # accuracies = map(lambda x: x * 100, accuracies)
     plt.style.use('ggplot')
@@ -138,7 +178,7 @@ def plot_linear_accuracy_check(iterations=50, tests=10, tests_incr=0, points_fir
     """
     accuracies = []
     for i in xrange(iterations):
-        accuracies.append(n_estimate_pi(tests=tests + i * tests_incr, points=points_first + i * points_incr)[1])
+        accuracies.append(mean_estimate_pi(tests=tests + i * tests_incr, points=points_first + i * points_incr)[1])
     # If in need of bigger differences on the plot (to depict the accuracy improvement), one should use:
     # accuracies = map(lambda x: x * 100, accuracies)
     plt.style.use('ggplot')
@@ -159,4 +199,4 @@ def plot_linear_accuracy_check(iterations=50, tests=10, tests_incr=0, points_fir
 
 # plot_linear_accuracy_check(iterations=100, tests_incr=0, points_first=500, points_incr=100)
 # plot_poly3_accuracy_check(iterations=150, tests_incr=0, points_first=500, points_incr=100)
-plot_estimate_pi(points=500000)
+# plot_mean_accuracy_check(iterations=500)
