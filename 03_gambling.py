@@ -6,9 +6,12 @@ import matplotlib.pyplot as plt
 
 def gamble(win_chance=0.5):
     """
+    Performs gambling experiment.
 
-    :param win_chance:
-    :return:
+    :param win_chance: float (0,1) default 0.5
+        Chances of profit in a single bet/period.
+    :return: boolean
+        True if won, False if lost.
     """
     if random.random() <= win_chance:
         return True
