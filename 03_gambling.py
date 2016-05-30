@@ -1,6 +1,10 @@
 import random
 import matplotlib.pyplot as plt
 
+
+# Monte Carlo Method Presentation
+# Example 3 - Gambling
+# Can also be applied to financial simulations with more sophisticated conditions in gamble()
 # Inspired by the tutorial https://pythonprogramming.net/monte-carlo-simulator-python/
 
 
@@ -26,8 +30,8 @@ def bet(starting_funds=1000, stack=100, win_chance=0.5, periods=100):
     :return:
     """
     funds = starting_funds
-    x_axis = []
-    funds_list = []
+    x_axis = [0]
+    funds_list = [funds]
     current = 1
     while current <= periods:
         x_axis.append(current)
@@ -57,8 +61,8 @@ def broke_bet(starting_funds=1000, stack=100, win_chance=0.5, periods=100):
     :return:
     """
     funds = starting_funds
-    x_axis = []
-    funds_list = []
+    x_axis = [0]
+    funds_list = [funds]
     current = 1
     while current <= periods:
         x_axis.append(current)
@@ -94,8 +98,8 @@ def double_bet(starting_funds=10000, stack=100, win_chance=0.5, periods=100):
     :return:
     """
     funds = starting_funds
-    x_axis = []
-    funds_list = []
+    x_axis = [0]
+    funds_list = [funds]
     current = 1
     lost_count = 0
     while current <= periods:
@@ -137,8 +141,8 @@ def double_broke_bet(starting_funds=10000, stack=100, win_chance=0.5, periods=10
     :return:
     """
     funds = starting_funds
-    x_axis = []
-    funds_list = []
+    x_axis = [0]
+    funds_list = [funds]
     current = 1
     lost_count = 0
     while current <= periods:
@@ -264,6 +268,6 @@ def simul_broke_bets(bettors=1000, starting_funds=1000, stack=100, win_chance=0.
     plt.show()
 
 
-# simul_bets(bettors=900, starting_funds=10000, stack=100, win_chance=0.5, periods=900, double=True)
-# simul_broke_bets(bettors=900, starting_funds=10000, stack=100, win_chance=0.51, periods=50, double=True)
+# simul_bets(bettors=500, starting_funds=1000, stack=100, win_chance=0.48, periods=10000, double=False)
+# simul_broke_bets(bettors=500, starting_funds=10000, stack=100, win_chance=0.49, periods=10000, double=True)
 # double_broke_bet(stack=200, periods=1000)

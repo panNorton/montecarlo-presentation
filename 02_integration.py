@@ -3,6 +3,10 @@ import math
 import matplotlib.pyplot as plt
 
 
+# Monte Carlo Methods Presentation
+# Example 2 - Integration
+
+
 def integrate(x1, x2, maxmin_steps=100000, points=100000, func=lambda x: x ** 2):
     """
     Estimates the integral of a function using Monte Carlo methods.

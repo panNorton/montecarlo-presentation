@@ -5,6 +5,10 @@ from scipy.optimize import curve_fit
 import matplotlib.pyplot as plt
 
 
+# Monte Carlo Methods Presentation
+# Example 1 - Pi Estimation
+
+
 def single_estimate_pi(points=100000):
     """
     Estimates Pi value using Monte Carlo method
