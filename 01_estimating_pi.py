@@ -45,7 +45,7 @@ def plot_estimate_pi(points=100000):
         else:
             out_x.append(x)
             out_y.append(y)
-    est_pi = 4.0 * counter / points
+    est_pi = round(4.0 * counter / points, 8)
     error = round(abs(math.pi - est_pi), 8)
     plt.style.use('ggplot')
     plt.suptitle('Pi estimation for N = %s points' % points, fontsize=16)
@@ -110,6 +110,9 @@ def plot_mean_accuracy_check(iterations=50, points_first=50, points_incr=25, tes
         return a * x ** 3 + b * x ** 2 + c * x + d
 
     plt.style.use('ggplot')
+    plt.title('Accuracy check - single estimation vs. estimation by mean')
+    plt.xlabel('Iterations')
+    plt.ylabel('Difference from exact Pi value')
     x_axis = np.array(range(iterations), dtype=float)
     y_axis1 = np.array(y_axis_single, dtype=float)
     y_axis2 = np.array(y_axis_mean, dtype=float)
@@ -119,10 +122,11 @@ def plot_mean_accuracy_check(iterations=50, points_first=50, points_incr=25, tes
     plt.plot(x_axis, func(x_axis, *popt2), color="#ee2c2c", label='Fitted Curve Mean', linewidth=3)
     plt.plot(x_axis, y_axis_single, 'ro', color='#76ee00', markersize=2)
     plt.plot(x_axis, y_axis_mean, 'ro', color='#ee2c2c', markersize=2)
+    plt.legend()
     plt.show()
 
 
-def plot_poly3_accuracy_check(iterations=50, tests=10, tests_incr=0, points_first=1000, points_incr=100):
+def accuracy_check(iterations=50, tests=10, tests_incr=0, points_first=1000, points_incr=100, fit_func='linear'):
     """
     Checks the accuracy of Pi estimation with different parameters
     and plots the result including 3rd-degree polynomial curve fitting.
@@ -137,6 +141,8 @@ def plot_poly3_accuracy_check(iterations=50, tests=10, tests_incr=0, points_firs
         Number of randomly generated points from the set [0,1]x[0,1] in the first test.
     :param points_incr: positive int or 0, default 100
         Increment of a number of randomly generated points from the set [0,1]x[0,1] in next iterations.
+    :param fit_func: string: 'linear', 'poly2', 'poly3', 'poly4', 'poly5'
+        Type of a fitted curve.
     """
     accuracies = []
     for i in xrange(iterations):
@@ -147,56 +153,32 @@ def plot_poly3_accuracy_check(iterations=50, tests=10, tests_incr=0, points_firs
     plt.plot(range(len(accuracies)), accuracies, 'ro', color='green', markersize=4, label='Estimated points')
 
     # Curve fitting
-    def func(x, a, b, c, d):
-        return a * x ** 3 + b * x ** 2 + c * x + d
+    if fit_func == 'linear':
+        def func(x, a, b):
+            return a * x + b
+    elif fit_func == 'poly2':
+        def func(x, a, b, c):
+            return a * x ** 2 + b * x + c
+    elif fit_func == 'poly3':
+        def func(x, a, b, c, d):
+            return a * x ** 3 + b * x ** 2 + c * x + d
+    elif fit_func == 'poly4':
+        def func(x, a, b, c, d, e):
+            return a * x ** 4 + b * x ** 3 + c * x ** 2 + d * x + e
+    elif fit_func == 'poly5':
+        def func(x, a, b, c, d, e, f):
+            return a * x ** 5 + b * x ** 4 + c * x ** 3 + d * x ** 2 + e * x + f
+
     x_axis = np.array(range(len(accuracies)), dtype=float)
     y_axis = np.array(accuracies, dtype=float)
     popt, pcov = curve_fit(func, x_axis, y_axis)
     plt.plot(x_axis, func(x_axis, *popt), color="#ee2c2c", label='Fitted Curve', linewidth=3)
     plt.xlabel('Iterations', fontsize=13)
     plt.ylabel('Difference from Pi value', fontsize=13)
-    plt.title('Accuracy check of Monte Carlo Pi estimation \n iterations = %s, tests = %s, tests_incr = %s, '
-              'points first = %s, points_incr = %s' % (iterations, tests, tests_incr, points_first, points_incr))
+    plt.suptitle('Accuracy check of Monte Carlo Pi estimation', fontsize=15)
+    plt.title('iterations = %s, tests = %s, tests_incr = %s, points first = %s, points_incr = %s, fit_func = %s'
+              % (iterations, tests, tests_incr, points_first, points_incr, fit_func), fontsize=13)
     plt.show()
 
 
-def plot_linear_accuracy_check(iterations=50, tests=10, tests_incr=0, points_first=1000, points_incr=100):
-    """
-    Checks the accuracy of Pi estimation with different parameters
-    and plots the result including linear (1st degree polynomial) curve fitting.
-
-    :param iterations: positive int, default 50
-        Number of iterations.
-    :param tests: positive int, default 10
-        Number of tests in a single iteration.
-    :param tests_incr: positive int or 0, default 0
-        Increment of tests in next iterations.
-    :param points_first: positive int, default 1000
-        Number of randomly generated points from the set [0,1]x[0,1] in the first test.
-    :param points_incr: positive int or 0, default 100
-        Increment of a number of randomly generated points from the set [0,1]x[0,1] in next iterations.
-    """
-    accuracies = []
-    for i in xrange(iterations):
-        accuracies.append(mean_estimate_pi(tests=tests + i * tests_incr, points=points_first + i * points_incr)[1])
-    # If in need of bigger differences on the plot (to depict the accuracy improvement), one should use:
-    # accuracies = map(lambda x: x * 100, accuracies)
-    plt.style.use('ggplot')
-    plt.plot(range(len(accuracies)), accuracies, 'ro', color='green', markersize=4, label='Estimated points')
-
-    # Curve fitting
-    def func(x, c, d):
-        return c * x + d
-    x_axis = np.array(range(len(accuracies)), dtype=float)
-    y_axis = np.array(accuracies, dtype=float)
-    popt, pcov = curve_fit(func, x_axis, y_axis)
-    plt.plot(x_axis, func(x_axis, *popt), color="#ee2c2c", label='Fitted Curve', linewidth=3)
-    plt.xlabel('Iterations', fontsize=13)
-    plt.ylabel('Difference from Pi value', fontsize=13)
-    plt.title('Accuracy check of Monte Carlo Pi estimation \n iterations = %s, tests = %s, tests_incr = %s, '
-              'points first = %s, points_incr = %s' % (iterations, tests, tests_incr, points_first, points_incr))
-    plt.show()
-
-# plot_linear_accuracy_check(iterations=100, tests_incr=0, points_first=500, points_incr=100)
-# plot_poly3_accuracy_check(iterations=150, tests_incr=0, points_first=500, points_incr=100)
-plot_mean_accuracy_check(iterations=500)
+accuracy_check(iterations=400, tests_incr=0, points_first=200, points_incr=100, fit_func='poly5')
