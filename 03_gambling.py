@@ -179,7 +179,7 @@ def double_broke_bet(starting_funds=10000, stack=100, win_chance=0.5, periods=10
         current += 1
     gain = True if funds > starting_funds else False
     broke = True if funds <= 0 else False
-
+    # plt.xkcd()
     plt.style.use('ggplot')
     plt.plot(x_axis, funds_list)
 
@@ -259,6 +259,7 @@ def simul_broke_bets(bettors=1000, starting_funds=1000, stack=100, win_chance=0.
             x += 1
     gains_percent = round(100.0 * gains / bettors, 4)
     broke_percent = round(100.0 * broke / bettors, 4)
+    # plt.xkcd()
     plt.suptitle('Betting simulation of %s bettors: Starting funds = %s, Stack = %s, Win chance = %s %%, Double = %s'
                  % (bettors, starting_funds, stack, win_chance * 100, double), fontsize=15)
     plt.title('Profit = %s %%, Loss = %s %%, Broke = %s %%' %
@@ -269,5 +270,5 @@ def simul_broke_bets(bettors=1000, starting_funds=1000, stack=100, win_chance=0.
 
 
 # simul_bets(bettors=500, starting_funds=1000, stack=100, win_chance=0.48, periods=10000, double=False)
-# simul_broke_bets(bettors=500, starting_funds=10000, stack=100, win_chance=0.49, periods=10000, double=True)
+# simul_broke_bets(bettors=100, starting_funds=10000, stack=100, win_chance=0.49, periods=500, double=True)
 # double_broke_bet(stack=200, periods=1000)

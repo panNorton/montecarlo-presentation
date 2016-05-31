@@ -51,6 +51,7 @@ def plot_estimate_pi(points=100000):
             out_y.append(y)
     est_pi = round(4.0 * counter / points, 8)
     error = round(abs(math.pi - est_pi), 8)
+    # plt.xkcd()
     plt.style.use('ggplot')
     plt.suptitle('Pi estimation for N = %s points' % points, fontsize=16)
     plt.title('Calculated Pi = %s, Error = %s ' % (est_pi, error), fontsize=12)
@@ -113,6 +114,7 @@ def plot_mean_accuracy_check(iterations=50, points_first=50, points_incr=25, tes
     def func(x, a, b, c, d):
         return a * x ** 3 + b * x ** 2 + c * x + d
 
+    # plt.xkcd()
     plt.style.use('ggplot')
     plt.title('Accuracy check - single estimation vs. estimation by mean')
     plt.xlabel('Iterations')
@@ -185,4 +187,5 @@ def accuracy_check(iterations=50, tests=10, tests_incr=0, points_first=1000, poi
     plt.show()
 
 
-accuracy_check(iterations=400, tests_incr=0, points_first=200, points_incr=100, fit_func='poly5')
+plot_mean_accuracy_check()
+# plot_estimate_pi(points=1000)
